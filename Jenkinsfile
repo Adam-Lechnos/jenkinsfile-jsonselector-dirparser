@@ -1,4 +1,4 @@
-//directory parser for json selector
+//code snippet - directory parser for json selector
 dir_list_root = sh(label: 'Check create folder directory structure for JSON Selector, script: 'ls -l test | grep '^d' create/aws', returnStdout: true).trim()'
 
 if ( dir_list_root ) {
