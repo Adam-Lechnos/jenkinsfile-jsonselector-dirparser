@@ -1,12 +1,12 @@
 //code snippet - directory parser for json selector
-dir_list_root = sh(label: 'Check create folder directory structure for JSON Selector, script: 'ls -l test | grep '^d' create/aws', returnStdout: true).trim()'
+dir_list_root = sh(label: 'Check create folder directory structure for JSON Selector, script: 'ls -l test | grep '^d' foo/bar', returnStdout: true).trim()'
 
 if ( dir_list_root ) {
 
   if (json_selector.size() > 0) {
 
     json_selector.split(",").each { newInput -> 
-      file_list += "create/aws/$aws_region_xhyphen/$role_account_env/$newInput," 
+      file_list += "foo/bar/$aws_region/$role_account_env/$newInput," 
     }
 
     file_list = file_list.drop(4)
@@ -14,15 +14,15 @@ if ( dir_list_root ) {
     splitter = ","
 
     echo "--------------------------------------------------------------------------"
-    echo "JSON Selector is active for folder $aws_region_xhyphen/$role_account_env/ "
+    echo "JSON Selector is active for folder $aws_region/$role_account_env/ "
     echo "--------------------------------------------------------------------------"
 
   } else {
 
-    file_list = sh (label: 'Retrieve file list', script: 'find create/aws/$aws_region_xhyphen/$role_account_env/ -type f', returnStdout: true).trim()
+    file_list = sh (label: 'Retrieve file list', script: 'find foo/bar/$aws_region/$role_account_env/ -type f', returnStdout: true).trim()
     splitter = "\n"
 
-    echo "Deploying all JSON files for folder $aws_region_xhyphen/$role_account_env/"
+    echo "Deploying all JSON files for folder $aws_region/$role_account_env/"
 
   }
 
@@ -33,7 +33,7 @@ if ( dir_list_root ) {
   if ( json_selector.size() > 0 ) {
   
     json_selector.split(",").each { newInput ->
-      file_list += "create/aws/$newInput,"
+      file_list += "foo/bar/$newInput,"
     }
 
     file_list = file_list.drop(4)
@@ -46,7 +46,7 @@ if ( dir_list_root ) {
 
   } else {
 
-    file_list = sh (label: 'Retrieve file list', script: 'find create/aws/ -maxdepth 1 -type f', returnStdout: true).trim()
+    file_list = sh (label: 'Retrieve file list', script: 'find foo/bar/ -maxdepth 1 -type f', returnStdout: true).trim()
     splitter = "\n"
 
     echo "Deploying all JSON files for root create folder"
